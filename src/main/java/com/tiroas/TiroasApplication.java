@@ -4,6 +4,7 @@ import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.MongoCollection;
 import com.tiroas.repository.sql.orm.Product;
 import com.tiroas.repository.sql.ProductCrudRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,13 +56,10 @@ public class TiroasApplication implements CommandLineRunner {
                 new Product(20, "Fuente Alimentación", "PS500SX", "Descripción 20", 800000, true, 10, "")
         ));
 
-        System.out.println("Productos de menos de : 80000");
         productCrudRepository.findByPrecioLessThanEqual(80000).forEach(System.out::println);
 
-        System.out.println("Productos de la categoria :  ALTAVOCES");
         productCrudRepository.findByCategoria("ALTAVOCES").forEach(System.out::println);
 
-        System.out.println("Productos con el nombre :  Fuente");
         productCrudRepository.findByNombreLike("0SX").forEach(System.out::println);
 
         List<String> categoryList = new ArrayList<>();
@@ -70,9 +68,5 @@ public class TiroasApplication implements CommandLineRunner {
         for (String o : distinctIterable) {
             categoryList.add(o);
         }
-
-        System.out.println("Listado de categorias");
-        categoryList.forEach(System.out::println);
-
     }
 }
