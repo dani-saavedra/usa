@@ -5,7 +5,7 @@
  */
 package com.tiroas.controller;
 
-import com.tiroas.controller.dto.ProductoDTO;
+import com.tiroas.controller.dto.ProductDTO;
 import com.tiroas.repository.sql.orm.Product;
 import com.tiroas.service.api.IProductService;
 import org.springframework.http.HttpStatus;
@@ -33,20 +33,20 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductoDTO getProduct(@PathVariable("id") int id) {
-        return ProductoDTO.fromModel(productService.getProductById(id).get());
+    public ProductDTO getProduct(@PathVariable("id") int id) {
+        return ProductDTO.fromModel(productService.getProductById(id).get());
     }
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductoDTO create(@RequestBody Product product) {
-        return ProductoDTO.fromModel(productService.createProduct(product));
+    public ProductDTO create(@RequestBody ProductDTO product) {
+        return ProductDTO.fromModel(productService.createProduct(product.toModel()));
     }
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductoDTO update(@RequestBody Product product) {
-        return ProductoDTO.fromModel(productService.updateProduct(product));
+    public ProductDTO update(@RequestBody ProductDTO product) {
+        return ProductDTO.fromModel(productService.updateProduct(product.toModel()));
     }
 
     @DeleteMapping("/{id}")
@@ -56,21 +56,22 @@ public class ProductController {
     }
 
     @GetMapping("/categoria/{categoria}")
-    public List<ProductoDTO> productsByCategory(@PathVariable("categoria") String categoria) {
-        return productService.productsByCategory(categoria).stream().map(ProductoDTO::fromModel).collect(Collectors.toList());
+    public List<ProductDTO> productsByCategory(@PathVariable("categoria") String categoria) {
+        return productService.productsByCategory(categoria).stream().map(ProductDTO::fromModel).collect(Collectors.toList());
     }
 
     @GetMapping("/precio/{precio}")
-    public List<ProductoDTO> productsByPricing(@PathVariable("precio") double precio) {
-        return productService.productsByPricing(precio).stream().map(ProductoDTO::fromModel).collect(Collectors.toList());
+    public List<ProductDTO> productsByPricing(@PathVariable("precio") double precio) {
+        return productService.productsByPricing(precio).stream().map(ProductDTO::fromModel).collect(Collectors.toList());
     }
 
     @GetMapping("/nombre/{nombre}")
-    public List<ProductoDTO> productosxNombre(@PathVariable("nombre") String nombre) {
-        return productService.productsByName(nombre).stream().map(ProductoDTO::fromModel).collect(Collectors.toList());
+    public List<ProductDTO> productosxNombre(@PathVariable("nombre") String nombre) {
+        return productService.productsByName(nombre).stream().map(ProductDTO::fromModel).collect(Collectors.toList());
     }
 
     @GetMapping("/categorias")
+    @ResponseBody
     public List<String> categorias() {
         return productService.getAllCategories();
     }
